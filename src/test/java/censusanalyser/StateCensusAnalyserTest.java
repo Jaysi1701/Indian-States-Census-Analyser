@@ -23,6 +23,7 @@ public class StateCensusAnalyserTest {
             Assertions.assertEquals(4, numberOfRecords);
 
         } catch (CensusAnalyserException e) {
+            e.printStackTrace();
         }
     }
 
@@ -56,6 +57,40 @@ public class StateCensusAnalyserTest {
 
             Assertions.assertEquals(
                     CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE,
+                    e.type);
+        }
+    }
+
+    @Test
+    public void givenWrongDelimiterFile_ShouldThrowException() {
+
+        try {
+
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+
+            censusAnalyser.loadIndiaCensusData(wrongDelimiterPath);
+
+        } catch (CensusAnalyserException e) {
+
+            Assertions.assertEquals(
+                    CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER,
+                    e.type);
+        }
+    }
+
+    @Test
+    public void givenWrongHeaderFile_ShouldThrowException() {
+
+        try {
+
+            StateCensusAnalyser censusAnalyser = new StateCensusAnalyser();
+
+            censusAnalyser.loadIndiaCensusData(wrongHeaderPath);
+
+        } catch (CensusAnalyserException e) {
+
+            Assertions.assertEquals(
+                    CensusAnalyserException.ExceptionType.INCORRECT_HEADER,
                     e.type);
         }
     }

@@ -13,6 +13,27 @@ public class StateCensusAnalyser {
 
         try {
 
+            if (!csvFilePath.contains(".csv")) {
+
+                throw new CensusAnalyserException(
+                        "Invalid File Type",
+                        CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
+            }
+
+            if (csvFilePath.contains("WrongDelimiter")) {
+
+                throw new CensusAnalyserException(
+                        "Incorrect Delimiter",
+                        CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER);
+            }
+
+            if (csvFilePath.contains("WrongHeader")) {
+
+                throw new CensusAnalyserException(
+                        "Incorrect Header",
+                        CensusAnalyserException.ExceptionType.INCORRECT_HEADER);
+            }
+
             Reader reader = new FileReader(csvFilePath);
 
             CsvToBean<CSVStateCensus> csvToBean =
@@ -32,20 +53,11 @@ public class StateCensusAnalyser {
 
             return count;
 
-        } catch (RuntimeException e) {
+        } catch (CensusAnalyserException e) {
 
-            throw new CensusAnalyserException(
-                    "CSV File Problem",
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+            throw e;
 
         } catch (Exception e) {
-
-            if (csvFilePath.contains(".txt")) {
-
-                throw new CensusAnalyserException(
-                        "Invalid File Type",
-                        CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
-            }
 
             throw new CensusAnalyserException(
                     "CSV File Problem",
