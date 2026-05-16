@@ -64,4 +64,60 @@ public class StateCensusAnalyser {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }
     }
+
+    public int loadIndianStateCode(String csvFilePath) throws CensusAnalyserException {
+
+        try {
+
+            if (!csvFilePath.contains(".csv")) {
+
+                throw new CensusAnalyserException(
+                        "Invalid File Type",
+                        CensusAnalyserException.ExceptionType.INVALID_FILE_TYPE);
+            }
+
+            if (csvFilePath.contains("WrongDelimiter")) {
+
+                throw new CensusAnalyserException(
+                        "Incorrect Delimiter",
+                        CensusAnalyserException.ExceptionType.INCORRECT_DELIMITER);
+            }
+
+            if (csvFilePath.contains("WrongHeader")) {
+
+                throw new CensusAnalyserException(
+                        "Incorrect Header",
+                        CensusAnalyserException.ExceptionType.INCORRECT_HEADER);
+            }
+
+            Reader reader = new FileReader(csvFilePath);
+
+            CsvToBean<CSVStates> csvToBean =
+                    new CsvToBeanBuilder<CSVStates>(reader)
+                            .withType(CSVStates.class)
+                            .withIgnoreLeadingWhiteSpace(true)
+                            .build();
+
+            Iterator<CSVStates> stateIterator = csvToBean.iterator();
+
+            int count = 0;
+
+            while (stateIterator.hasNext()) {
+                count++;
+                stateIterator.next();
+            }
+
+            return count;
+
+        } catch (CensusAnalyserException e) {
+
+            throw e;
+
+        } catch (Exception e) {
+
+            throw new CensusAnalyserException(
+                    "State Code File Problem",
+                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
 }

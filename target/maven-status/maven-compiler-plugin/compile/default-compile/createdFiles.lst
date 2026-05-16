@@ -1,4 +1,5 @@
 censusanalyser\StateCensusAnalyser.class
 censusanalyser\CensusAnalyserException.class
+censusanalyser\CSVStates.class
 censusanalyser\CSVStateCensus.class
 censusanalyser\CensusAnalyserException$ExceptionType.class
